@@ -1,0 +1,29 @@
+{
+  "name": "obsidian-daymark-life-tracker",
+  "version": "2026.9.212203",
+  "description": "A local-first life and habit tracker for Obsidian on desktop and mobile.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc --noEmit --skipLibCheck && node esbuild.config.mjs production",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run test && npm run build"
+  },
+  "keywords": [
+    "obsidian",
+    "habit-tracker",
+    "life-tracker",
+    "markdown"
+  ],
+  "author": "Daymark Contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "builtin-modules": "^5.0.0",
+    "esbuild": "0.25.5",
+    "obsidian": "latest",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}

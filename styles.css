@@ -1,0 +1,3721 @@
+.daymark-view,
+.daymark-modal {
+  --background-primary: #090e16;
+  --background-primary-alt: #0e1621;
+  --background-secondary: #121d29;
+  --background-secondary-alt: #172432;
+  --background-modifier-border: #293848;
+  --background-modifier-border-focus: #557566;
+  --background-modifier-hover: #1a2937;
+  --background-modifier-form-field: #101a25;
+  --background-modifier-error: #8f4050;
+  --interactive-normal: #111c28;
+  --interactive-hover: #1a2937;
+  --text-normal: #edf3f5;
+  --text-muted: #b4c0c9;
+  --text-faint: #81909c;
+  --text-success: #8be5c9;
+  --text-warning: #efc47e;
+  --text-error: #ff9b9b;
+  --daymark-accent: #7ed9bc;
+  --daymark-accent-hover: #9be9d1;
+  --daymark-soft: color-mix(in srgb, var(--daymark-accent) 8%, var(--background-primary-alt));
+  --daymark-border: color-mix(in srgb, var(--daymark-accent) 20%, var(--background-modifier-border));
+  --daymark-surface: color-mix(in srgb, var(--background-primary-alt) 94%, transparent);
+  --daymark-shadow: 0 12px 34px rgb(0 0 0 / 22%);
+  --interactive-accent: var(--daymark-accent);
+  --interactive-accent-hover: var(--daymark-accent-hover);
+  --text-on-accent: #0b2c24;
+  color-scheme: dark;
+}
+
+.theme-dark .daymark-view,
+.theme-dark .daymark-modal {
+  --daymark-accent: #88e0c4;
+  --daymark-accent-hover: #a3edd7;
+}
+
+.daymark-view {
+  container: daymark / inline-size;
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  min-height: 100%;
+  overflow-x: hidden;
+  padding: 24px 22px calc(32px + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(ellipse at var(--daymark-glow-x, 12%) var(--daymark-glow-y, 8%), rgb(49 95 111 / 24%), transparent 45%),
+    radial-gradient(ellipse at calc(100% - var(--daymark-glow-x, 12%)) 40%, rgb(91 64 122 / 17%), transparent 48%),
+    radial-gradient(circle at 55% 88%, rgb(24 104 84 / 17%), transparent 36%),
+    linear-gradient(var(--daymark-glow-angle, 155deg), #070b12 0%, #0b121d 48%, #07130f 100%);
+  color: var(--text-normal);
+  font-size: 14px;
+}
+
+.daymark-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+}
+
+.daymark-mystic-backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  padding: 42px 2vw;
+  grid-template-columns: repeat(11, minmax(28px, 1fr));
+  grid-auto-rows: minmax(76px, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 18px 24px;
+  color: #9ce8d2;
+  font-size: clamp(22px, 2.3vw, 38px);
+  line-height: 1;
+  opacity: 0.075;
+  pointer-events: none;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+}
+
+.daymark-mystic-backdrop > span {
+  transform: translate(var(--glyph-x, 0px), var(--glyph-y, 0px)) scale(var(--glyph-scale, 1));
+}
+
+.daymark-mystic-hexagram {
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", sans-serif;
+}
+
+.daymark-mystic-rune,
+.daymark-rune-glyph,
+.daymark-milestone-rune-single,
+.daymark-milestone-item-symbols > span:last-child {
+  font-family: "Segoe UI Historic", "Noto Sans Runic", "Noto Sans Symbols 2", sans-serif;
+}
+
+.daymark-view button {
+  cursor: pointer;
+}
+
+.daymark-view button:disabled {
+  cursor: default;
+}
+
+.daymark-view *,
+.daymark-modal *,
+.daymark-settings * {
+  box-sizing: border-box;
+}
+
+.daymark-view button:focus-visible,
+.daymark-view input:focus-visible,
+.daymark-view summary:focus-visible,
+.daymark-modal button:focus-visible,
+.daymark-modal input:focus-visible,
+.daymark-modal textarea:focus-visible,
+.daymark-modal select:focus-visible {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: 2px;
+}
+
+.daymark-sr-only {
+  position: absolute !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+}
+
+.daymark-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 auto 22px;
+}
+
+.daymark-brand {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 10px;
+}
+
+.daymark-brand-mark {
+  display: grid;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(145deg, var(--daymark-accent), var(--daymark-accent-hover));
+  box-shadow: 0 6px 15px color-mix(in srgb, var(--daymark-accent) 16%, transparent);
+  color: var(--text-on-accent);
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.daymark-brand-mark svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 1.8;
+}
+
+.daymark-brand > div {
+  min-width: 0;
+}
+
+.daymark-brand-title-row,
+.daymark-brand-meta {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+}
+
+.daymark-brand-title-row {
+  gap: 12px;
+}
+
+.daymark-brand-meta {
+  gap: 8px;
+}
+
+.daymark-brand h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+}
+
+.daymark-brand-meta > span {
+  display: block;
+  overflow: hidden;
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.daymark-live-clock {
+  color: var(--daymark-accent);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.015em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.daymark-live-clock strong {
+  font-weight: 650;
+}
+
+.daymark-live-date {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.daymark-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.daymark-top-actions button,
+.daymark-card-edit,
+.daymark-number-controls .clickable-icon,
+.daymark-note-row .clickable-icon,
+.daymark-date-nav .clickable-icon,
+.daymark-month-nav .clickable-icon {
+  display: grid;
+  min-width: 44px;
+  min-height: 44px;
+  place-items: center;
+  border-radius: 11px;
+}
+
+.daymark-top-actions .daymark-new-habit {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-inline: 12px;
+  border: 1px solid var(--daymark-border);
+  background: var(--daymark-surface);
+  color: var(--daymark-accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.daymark-new-habit svg {
+  width: 16px;
+  height: 16px;
+}
+
+.daymark-issue-button {
+  position: relative;
+  color: var(--text-warning);
+}
+
+.daymark-issue-button > span:last-child {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 17px;
+  padding: 1px 4px;
+  border-radius: 999px;
+  background: var(--background-modifier-error);
+  color: var(--text-on-accent);
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+}
+
+.daymark-view button.daymark-activity-launch {
+  display: flex; align-items: center; gap: 14px; width: 100%; height: auto;
+  padding: 17px 20px; margin: 18px 0; text-align: left; white-space: normal;
+  border: 1px solid #8adac433; border-radius: 16px;
+  background: linear-gradient(120deg, #14252b, #101922); color: #e1eeec;
+}
+.daymark-activity-launch > div { flex: 1; min-width: 0; }
+.daymark-activity-launch strong { display: block; font-size: 17px; }
+.daymark-activity-launch div span { display: block; color: #93a9ac; font-size: 13px; margin-top: 5px; }
+.daymark-activity-launch-icon { color: #97dac8; }
+.daymark-view button.daymark-card-grip { flex: 0 0 24px; width: 24px; padding: 3px; cursor: grab; border: 0; background: transparent; color: var(--text-muted); box-shadow: none; }
+.daymark-card-grip svg, .daymark-card-tools svg { width: 15px; height: 15px; }
+.daymark-habit-card.is-sorting { opacity: .55; }
+.daymark-habit-card.is-drop-before { box-shadow: 0 -3px 0 var(--daymark-accent); }
+.daymark-habit-card.is-drop-after { box-shadow: 0 3px 0 var(--daymark-accent); }
+.daymark-card-tools { display: flex; gap: 6px; justify-content: flex-end; padding-top: 12px; }
+.daymark-view .daymark-card-tools button { min-height: 32px; padding: 5px 9px; font-size: 12px; color: var(--text-muted); background: transparent; box-shadow: none; }
+.daymark-view .daymark-card-tools .daymark-activity-handle { color: var(--daymark-accent); }
+
+.daymark-activity-view {
+  --focus-mint: #a1dec9; --focus-dim: #829798;
+  padding: 0 !important; color: #e9efeb; color-scheme: dark;
+  background: radial-gradient(ellipse at 95% 0%, #23444066, transparent 50%), linear-gradient(155deg, #141e24, #0c1219 75%) !important;
+  font-family: var(--font-interface); overflow: auto;
+}
+.daymark-focus-panel { max-width: 620px; min-height: 100%; margin: 0 auto; padding: 26px 24px 18px; box-sizing: border-box; }
+.daymark-focus-panel.is-dragover { outline: 2px dashed var(--focus-mint); outline-offset: -8px; }
+.daymark-focus-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.daymark-focus-kicker { color: var(--focus-mint); font-size: 10px; font-weight: 600; letter-spacing: .22em; }
+.daymark-focus-top h1 { margin: 8px 0 0; font-size: 29px; line-height: 1.2; font-weight: 650; letter-spacing: -.04em; color: #edf3ef; }
+.daymark-activity-view button { cursor: pointer; box-shadow: none; font-family: inherit; }
+.daymark-activity-view .daymark-focus-icon { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid #ffffff16; border-radius: 12px; background: #ffffff05; color: #80928e; }
+.daymark-focus-icon svg { width: 16px; height: 16px; }
+.daymark-activity-view .daymark-focus-icon[aria-pressed="true"] { color: #b7e8d6; background: #9adebf17; border-color: #a4e2ce36; }
+.daymark-focus-overview { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin: 26px 0; padding-bottom: 23px; border-bottom: 1px solid #ffffff0f; }
+.daymark-activity-view input.daymark-focus-date-input { padding: 0; width: 144px; height: 28px; border: 0; box-shadow: none; background: transparent; color: #c3ceca; font-size: 13px; }
+.daymark-focus-summary { color: var(--focus-dim); font-size: 12px; line-height: 1.7; margin: 6px 0 0; }
+.daymark-focus-ring { position: relative; flex: 0 0 68px; height: 68px; border-radius: 50%; background: conic-gradient(var(--focus-mint) var(--focus-progress, 0%), #ffffff0d 0); display: grid; place-items: center; }
+.daymark-focus-ring::before { position: absolute; inset: 3px; border-radius: 50%; background: #131f25; content: ""; }
+.daymark-focus-ring strong { z-index: 1; font-size: 20px; font-weight: 500; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: #dcebe4; }
+.daymark-focus-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.daymark-focus-toolbar > span { color: #b9c7c2; font-size: 12px; letter-spacing: .08em; }
+.daymark-focus-toolbar button { border: 0; color: var(--focus-mint); background: transparent; padding: 4px 0 4px 12px; font-size: 12px; height: auto; }
+.daymark-focus-picker { display: flex; gap: 8px; padding: 10px; margin-bottom: 12px; border-radius: 12px; background: #ffffff08; }
+.daymark-focus-picker select { flex: 1; min-width: 0; max-width: 100%; height: 34px; background: #17242b; color: #dce9e2; border: 1px solid #ffffff13; font-size: 12px; }
+.daymark-focus-picker button { flex: 0 0 auto; height: 34px; border-radius: 8px; border: 0; background: #a1dec9; color: #122a25; font-size: 12px; }
+.daymark-focus-items { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.daymark-activity-view .daymark-activity-row { position: relative; display: flex; align-items: center; gap: 11px; padding: 17px 13px; border: 1px solid #ffffff0e; border-radius: 15px; background: linear-gradient(120deg, #ffffff06, #ffffff02); }
+.daymark-focus-emoji { flex: 0 0 31px; display: grid; place-items: center; width: 31px; height: 35px; font-size: 19px; filter: saturate(.75); }
+.daymark-focus-task-body { flex: 1; min-width: 0; }
+.daymark-focus-task-line { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 12px; }
+.daymark-focus-task-line strong { color: #e2e9e4; font-size: 14px; line-height: 1.4; font-weight: 550; overflow-wrap: anywhere; }
+.daymark-focus-task-state { font-size: 9px; color: #b7ddc9; }
+.daymark-focus-task-progress { height: 3px; border-radius: 3px; background: #ffffff0b; overflow: hidden; }
+.daymark-focus-task-progress span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #6fae9f, #bcead4); transition: width .25s linear; }
+.daymark-focus-task-value { display: block; margin-top: 8px; font-size: 11px; font-variant-numeric: tabular-nums; color: #859d96; line-height: 1.4; }
+.daymark-activity-view .daymark-activity-check { flex: 0 0 24px; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; color: #637c76; font-size: 21px; }
+.daymark-activity-view .is-complete { border-color: #a1dec927; background: #a1dec908; }
+.daymark-activity-view .is-complete .daymark-activity-check { background: #a1dec9; color: #16352a; font-size: 15px; font-weight: 700; }
+.daymark-activity-view .daymark-focus-remove { position: absolute; top: 3px; right: 4px; width: 20px; height: 20px; min-height: 0; padding: 2px; border: 0; background: transparent; color: #697f79; opacity: .35; }
+.daymark-focus-remove svg { width: 11px; height: 11px; }
+.daymark-activity-row:hover .daymark-focus-remove, .daymark-focus-remove:focus-visible { opacity: 1; }
+.daymark-focus-footer { display: flex; flex-direction: column; gap: 6px; align-items: center; padding-top: 26px; color: #77928a; font-size: 11px; }
+.daymark-focus-footer span:last-child { font-size: 10px; color: #516b63; }
+.daymark-focus-empty { padding: 35px 0 45px; text-align: center; color: #8da69c; }
+.daymark-focus-empty svg { width: 36px; height: 36px; margin-bottom: 14px; stroke-width: 1; color: #83bda5; }
+.daymark-focus-empty strong { display: block; font-size: 15px; font-weight: 500; }
+.daymark-focus-empty p { font-size: 12px; color: #70877f; }
+@media (max-width: 360px) {
+  .daymark-focus-panel { padding: 20px 16px 16px; }
+  .daymark-focus-emoji { flex-basis: 25px; width: 25px; font-size: 17px; }
+  .daymark-focus-items .daymark-activity-row { padding: 17px 10px; gap: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .daymark-focus-task-progress span { transition: none; }
+}
+.daymark-gallery { padding: 24px 0; }
+.daymark-gallery-help { color: var(--text-muted); overflow-wrap: anywhere; line-height: 1.6; }
+.daymark-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 22px; margin-top: 24px; }
+.daymark-gallery-card { min-width: 0; overflow: hidden; padding: 16px; border: 1px solid var(--background-modifier-border); border-radius: 18px; background: var(--background-secondary); }
+.daymark-gallery-card h3 { font-size: 18px; margin: 16px 0 8px; overflow-wrap: anywhere; }
+.daymark-gallery-card p { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; line-height: 1.6; color: var(--text-muted); }
+.daymark-view button.daymark-gallery-preview { display: block; width: 100%; height: 230px; padding: 0; overflow: hidden; border-radius: 12px; background: #0b1018; }
+.daymark-gallery-preview img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.daymark-gallery-empty { padding: 60px 24px; text-align: center; border: 1px dashed var(--background-modifier-border); border-radius: 18px; margin-top: 24px; color: var(--text-muted); }
+.daymark-gallery-lightbox { width: min(94vw, 1300px); }
+.daymark-gallery-lightbox img { display: block; width: 100%; max-height: 72vh; object-fit: contain; }
+.daymark-gallery-lightbox p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.daymark-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  margin: 0 auto 20px;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--daymark-accent) 7%, var(--background-primary));
+}
+
+.daymark-tabs button {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: normal;
+  min-width: 0;
+}
+
+.daymark-tabs button:hover {
+  background: var(--background-modifier-hover);
+}
+
+.daymark-tabs button.is-active {
+  background: var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+  color: var(--daymark-accent);
+}
+
+.daymark-tabs svg {
+  width: 17px;
+  height: 17px;
+}
+
+.daymark-rest-banner,
+.daymark-running-banner {
+  margin: 0 auto 20px;
+  padding: 16px 20px 19px;
+  border: 1px solid color-mix(in srgb, var(--daymark-accent) 36%, var(--daymark-border));
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 95% 0, color-mix(in srgb, var(--daymark-accent) 9%, transparent), transparent 65%),
+    var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-running-pulse {
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--interactive-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--interactive-accent) 12%, transparent);
+  animation: daymark-pulse 1.8s ease-in-out infinite;
+}
+
+.daymark-focus-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 13px;
+  color: var(--daymark-accent);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.daymark-focus-date {
+  margin-left: auto;
+  color: var(--text-muted);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.daymark-focus-body {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.daymark-focus-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.daymark-focus-name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.daymark-focus-clock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 9px;
+  margin-top: 5px;
+}
+
+.daymark-focus-clock > span,
+.daymark-rest-countdown {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-focus-clock > strong {
+  color: var(--daymark-accent);
+  font-size: 32px;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.daymark-rest-countdown {
+  display: block;
+  font-size: 14px;
+  margin-top: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.daymark-view .daymark-focus-stop {
+  flex: 0 0 auto;
+  min-height: 46px;
+  padding-inline: 16px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--daymark-accent);
+  color: var(--text-on-accent);
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@keyframes daymark-pulse {
+  50% {
+    opacity: 0.55;
+    transform: scale(0.82);
+  }
+}
+
+.daymark-date-nav,
+.daymark-month-nav {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 14px;
+}
+
+.daymark-date-label {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.daymark-date-label strong,
+.daymark-date-label > span {
+  display: block;
+}
+
+.daymark-date-label strong {
+  font-size: 15px;
+}
+
+.daymark-date-label > span {
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.daymark-date-label input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.daymark-date-label:focus-within,
+.daymark-weekday:focus-within {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: 2px;
+}
+
+.daymark-today-button {
+  min-height: 44px;
+  padding-inline: 11px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.daymark-daily-iching {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 18px;
+  margin: 0 auto 18px;
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, #9e7b48 25%, var(--daymark-border));
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 0 0, color-mix(in srgb, #b9955c 14%, transparent), transparent 42%),
+    radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--daymark-accent) 8%, transparent), transparent 42%),
+    var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-iching-symbol {
+  display: grid;
+  width: 82px;
+  height: 98px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, #9e7b48 22%, var(--daymark-border));
+  border-radius: 22px;
+  background: color-mix(in srgb, #b9955c 9%, var(--background-primary));
+  color: color-mix(in srgb, #8d6835 78%, var(--text-normal));
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", serif;
+  font-size: 55px;
+  line-height: 1;
+}
+
+.daymark-iching-content {
+  min-width: 0;
+}
+
+.daymark-iching-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.daymark-iching-heading > div {
+  min-width: 0;
+}
+
+.daymark-iching-heading .daymark-eyebrow {
+  color: color-mix(in srgb, #9e7b48 78%, var(--text-normal));
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+}
+
+.daymark-iching-heading h2 {
+  margin: 4px 0 0;
+  color: var(--text-normal);
+  font-size: 19px;
+}
+
+.daymark-iching-index {
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #b9955c 11%, var(--background-secondary));
+  color: var(--text-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.daymark-iching-original {
+  margin: 13px 0 0;
+  padding: 0 0 0 12px;
+  border-left: 2px solid color-mix(in srgb, #9e7b48 60%, var(--daymark-border));
+  color: var(--text-normal);
+  font-family: var(--font-text-theme), "Noto Serif SC", serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.daymark-iching-explanation {
+  margin-top: 12px;
+}
+
+.daymark-iching-explanation > span {
+  color: var(--daymark-accent);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+}
+
+.daymark-iching-explanation p {
+  margin: 4px 0 0;
+  color: var(--text-normal);
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.daymark-iching-disclaimer {
+  display: block;
+  margin-top: 10px;
+  color: var(--text-faint);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.daymark-daily-check-in {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 14px;
+  margin: 0 auto 18px;
+  padding: 14px 16px;
+  border: 1px solid color-mix(in srgb, #9e7b48 28%, var(--daymark-border));
+  border-radius: 17px;
+  background:
+    linear-gradient(110deg, color-mix(in srgb, #b9955c 8%, transparent), transparent 46%),
+    var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-daily-check-in.is-complete {
+  border-color: color-mix(in srgb, var(--daymark-accent) 42%, var(--daymark-border));
+  background:
+    linear-gradient(110deg, color-mix(in srgb, var(--daymark-accent) 10%, transparent), transparent 52%),
+    var(--daymark-surface);
+}
+
+.daymark-check-in-icon {
+  display: grid;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, #b9955c 32%, var(--daymark-border));
+  border-radius: 13px;
+  background: color-mix(in srgb, #b9955c 10%, var(--background-primary));
+  color: color-mix(in srgb, #d2b477 88%, var(--text-normal));
+}
+
+.daymark-daily-check-in.is-complete .daymark-check-in-icon {
+  border-color: color-mix(in srgb, var(--daymark-accent) 35%, var(--daymark-border));
+  background: var(--daymark-soft);
+  color: var(--daymark-accent);
+}
+
+.daymark-check-in-icon svg,
+.daymark-check-in-action svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.8;
+}
+
+.daymark-check-in-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.daymark-check-in-heading {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.daymark-check-in-heading h2 {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--text-normal);
+  font-size: 16px;
+}
+
+.daymark-check-in-heading > span {
+  overflow: hidden;
+  color: color-mix(in srgb, #d2b477 76%, var(--text-muted));
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.daymark-daily-check-in.is-complete .daymark-check-in-heading > span {
+  color: var(--daymark-accent);
+}
+
+.daymark-check-in-copy > p {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.daymark-view .daymark-check-in-action {
+  display: flex;
+  flex: 0 0 auto;
+  min-width: 118px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding-inline: 14px;
+  border-radius: 11px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.daymark-view .daymark-check-in-action.is-complete {
+  border-color: color-mix(in srgb, var(--daymark-accent) 30%, var(--daymark-border));
+  background: var(--daymark-soft);
+  color: var(--daymark-accent);
+  opacity: 1;
+}
+
+.daymark-daily-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  margin: 0 auto 26px;
+  padding: 26px;
+  border: 1px solid color-mix(in srgb, var(--daymark-accent) 16%, var(--daymark-border));
+  border-radius: 22px;
+  background:
+    radial-gradient(ellipse at 90% 0, color-mix(in srgb, var(--daymark-accent) 13%, transparent), transparent 65%),
+    var(--daymark-soft);
+}
+
+.daymark-progress-ring {
+  display: grid;
+  flex: 0 0 98px;
+  width: 98px;
+  height: 98px;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--interactive-accent) var(--daymark-progress),
+    color-mix(in srgb, var(--daymark-accent) 13%, var(--background-primary)) 0
+  );
+}
+
+.daymark-progress-ring > div {
+  display: grid;
+  width: 82px;
+  height: 82px;
+  place-items: center;
+  align-content: center;
+  border-radius: 50%;
+  background: var(--daymark-soft);
+}
+
+.daymark-progress-ring strong,
+.daymark-progress-ring span {
+  display: block;
+}
+
+.daymark-progress-ring strong {
+  color: var(--daymark-accent);
+  font-size: 23px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.daymark-progress-ring span {
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-summary-copy {
+  min-width: 0;
+}
+
+.daymark-summary-copy .daymark-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--daymark-accent);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.15em;
+}
+
+.daymark-summary-copy h1 {
+  margin: 0;
+  color: var(--text-normal);
+  font-size: 25px;
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: -0.035em;
+}
+
+.daymark-summary-copy p {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.daymark-summary-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 15px;
+  color: var(--daymark-accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.daymark-category {
+  margin: 0 auto 25px;
+}
+
+.daymark-category-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 2px 11px;
+}
+
+.daymark-category-heading > h3,
+.daymark-breakdown > h3 {
+  margin: 0;
+  color: var(--text-normal);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.daymark-category-heading > span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-category-heading::after {
+  flex: 1;
+  height: 1px;
+  background: var(--daymark-border);
+  content: "";
+}
+
+.daymark-habit-list {
+  display: grid;
+  gap: 13px;
+}
+
+.daymark-habit-card {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  padding: 19px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 20px;
+  background: var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.daymark-habit-card::before {
+  position: absolute;
+  inset: 19px auto auto 0;
+  width: 3px;
+  height: 39px;
+  border-radius: 0 3px 3px 0;
+  background: var(--daymark-habit-color);
+  content: "";
+}
+
+.daymark-habit-card:hover {
+  border-color: color-mix(in srgb, var(--daymark-habit-color) 45%, var(--daymark-border));
+}
+
+.daymark-habit-card.is-complete {
+  background:
+    linear-gradient(
+      110deg,
+      color-mix(in srgb, var(--daymark-habit-color) 8%, transparent),
+      transparent 45%
+    ),
+    var(--daymark-surface);
+}
+
+.daymark-habit-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 16px;
+}
+
+.daymark-habit-emoji {
+  display: grid;
+  flex: 0 0 39px;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--daymark-habit-color) 14%, var(--background-secondary));
+  font-size: 20px;
+}
+
+.daymark-habit-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.daymark-habit-title strong,
+.daymark-habit-title span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.daymark-habit-title strong {
+  font-size: 15px;
+}
+
+.daymark-habit-title span {
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-done-badge {
+  flex: 0 0 auto;
+  padding: 3px 7px;
+  border: 1px solid color-mix(in srgb, var(--daymark-habit-color) 40%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--daymark-habit-color) 12%, transparent);
+  color: var(--text-success);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.daymark-card-edit {
+  flex: 0 0 auto;
+  margin-right: -7px;
+}
+
+.daymark-check-control,
+.daymark-text-add {
+  display: flex;
+  width: 100%;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px dashed color-mix(in srgb, var(--daymark-habit-color) 40%, var(--daymark-border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--daymark-habit-color) 7%, transparent);
+  box-shadow: none;
+  color: var(--text-normal);
+  font-weight: 600;
+}
+
+.daymark-check-control[aria-pressed="true"] {
+  border-style: solid;
+  border-color: var(--interactive-accent);
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.daymark-check-icon,
+.daymark-text-add > span:first-child {
+  display: inline-flex;
+}
+
+.daymark-check-icon svg,
+.daymark-text-add svg {
+  width: 18px;
+  height: 18px;
+}
+
+.daymark-number-meter > div:first-child {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.daymark-number-meter strong {
+  font-size: 17px;
+}
+
+.daymark-saved-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.daymark-duration-total {
+  margin-bottom: 17px;
+  padding: 15px 17px;
+  border: 1px solid color-mix(in srgb, var(--daymark-habit-color) 11%, var(--daymark-border));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--daymark-habit-color) 5%, var(--daymark-surface));
+}
+
+.daymark-duration-caption {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-duration-caption > span:first-child {
+  display: inline-flex;
+}
+
+.daymark-duration-caption svg {
+  width: 13px;
+  height: 13px;
+}
+
+.daymark-duration-total > .daymark-cumulative-value {
+  display: block;
+  margin-top: 4px;
+  color: var(--daymark-accent);
+  font-size: 34px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+
+.daymark-duration-hint {
+  display: block;
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-number-meter span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-linear-progress {
+  overflow: hidden;
+  height: 6px;
+  margin: 10px 0 15px;
+  border-radius: 999px;
+  background: var(--background-modifier-border);
+}
+
+.daymark-linear-progress > div {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--daymark-habit-color);
+  transition: width 180ms ease;
+}
+
+.daymark-number-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 7px;
+}
+
+.daymark-number-controls > button {
+  min-width: 0;
+  min-height: 46px;
+  margin: 0;
+  border-radius: 11px;
+}
+
+.daymark-add-step {
+  flex: 1 1 100px;
+  padding-inline: 13px;
+}
+
+.daymark-timer {
+  display: flex;
+  flex: 1 1 118px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--daymark-accent);
+  background: var(--daymark-accent);
+  color: var(--text-on-accent);
+  font-weight: 600;
+}
+
+.daymark-timer.is-running {
+  border-color: color-mix(in srgb, var(--text-error) 45%, var(--daymark-border));
+  background: color-mix(in srgb, var(--text-error) 10%, transparent);
+  color: var(--text-error);
+}
+
+.daymark-timer svg {
+  width: 15px;
+  height: 15px;
+}
+
+.daymark-duration-card .daymark-add-step {
+  border: 1px solid var(--daymark-border);
+  background: var(--daymark-surface);
+  color: var(--text-normal);
+  box-shadow: none;
+}
+
+.daymark-timer-hint {
+  margin-top: 11px;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.daymark-entry-note {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  background: var(--background-secondary);
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.daymark-note-list {
+  display: grid;
+  gap: 7px;
+  margin-top: 9px;
+}
+
+.daymark-note-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 9px 7px 9px 11px;
+  border-radius: 10px;
+  background: var(--background-secondary);
+}
+
+.daymark-note-row > div {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.daymark-empty {
+  display: grid;
+  min-height: 280px;
+  place-items: center;
+  align-content: center;
+  margin: 12px auto;
+  padding: 30px 22px;
+  border: 1px dashed var(--daymark-border);
+  border-radius: 18px;
+  text-align: center;
+}
+
+.daymark-empty > div {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  margin-bottom: 12px;
+  border-radius: 18px;
+  background: var(--daymark-soft);
+  color: var(--interactive-accent);
+}
+
+.daymark-empty h3 {
+  margin: 0 0 7px;
+}
+
+.daymark-empty p {
+  max-width: 330px;
+  margin: 0 0 18px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.daymark-month-nav h3 {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  font-size: 15px;
+}
+
+.daymark-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 0 auto 17px;
+}
+
+.daymark-stat-card {
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  padding: 13px 7px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 14px;
+  background: var(--background-primary-alt);
+  text-align: center;
+}
+
+.daymark-stat-card > div {
+  color: var(--interactive-accent);
+}
+
+.daymark-stat-card svg {
+  width: 17px;
+  height: 17px;
+}
+
+.daymark-stat-card strong {
+  overflow: hidden;
+  max-width: 100%;
+  margin-top: 5px;
+  font-size: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.daymark-stat-card span {
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 5px;
+  margin: 0 auto 22px;
+  padding: 11px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 17px;
+  background: var(--background-primary-alt);
+}
+
+.daymark-calendar-weekday {
+  padding: 4px 0 7px;
+  color: var(--text-faint);
+  font-size: 12px;
+  font-weight: 650;
+  text-align: center;
+}
+
+.daymark-calendar-day {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 44px;
+  place-items: center;
+  align-content: center;
+  gap: 1px;
+  margin: 0;
+  padding: 4px 1px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: color-mix(
+    in srgb,
+    var(--interactive-accent) calc(var(--daymark-day-strength) * 72%),
+    var(--background-secondary)
+  );
+  box-shadow: none;
+  color: var(--text-normal);
+  font-size: 12px;
+}
+
+.daymark-calendar-day small {
+  min-height: 10px;
+  color: inherit;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.daymark-calendar-day.is-today {
+  border-color: var(--interactive-accent);
+}
+
+.daymark-calendar-day.is-selected {
+  outline: 2px solid color-mix(in srgb, var(--interactive-accent) 45%, transparent);
+  outline-offset: 1px;
+}
+
+.daymark-calendar-day:disabled {
+  opacity: 0.3;
+}
+
+.daymark-breakdown {
+  margin: 0 auto;
+}
+
+.daymark-breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+  padding: 10px 12px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 12px;
+  background: var(--background-primary-alt);
+}
+
+.daymark-breakdown > h3 {
+  margin: 0 2px 11px;
+}
+
+.daymark-breakdown-cumulative {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.daymark-breakdown-row .daymark-breakdown-cumulative strong {
+  color: var(--daymark-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.daymark-statistics-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 22px;
+  margin: 0 auto 14px;
+  padding: 22px;
+  border: 1px solid color-mix(in srgb, var(--daymark-accent) 18%, var(--daymark-border));
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 8% 0, color-mix(in srgb, var(--daymark-accent) 11%, transparent), transparent 45%),
+    var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-statistics-copy {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.daymark-statistics-copy h1,
+.daymark-section-heading h2 {
+  margin: 3px 0 0;
+  color: var(--text-normal);
+  letter-spacing: -0.025em;
+}
+
+.daymark-statistics-copy h1 {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.daymark-statistics-copy p,
+.daymark-section-heading p {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.daymark-range-selector {
+  display: grid;
+  flex: 0 1 350px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--daymark-accent) 6%, var(--background-secondary));
+}
+
+.daymark-view .daymark-range-selector button {
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 6px 9px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.daymark-view .daymark-range-selector button:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.daymark-view .daymark-range-selector button.is-active {
+  background: var(--daymark-surface);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--daymark-accent) 9%, transparent);
+  color: var(--daymark-accent);
+}
+
+.daymark-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  margin: 0 auto 24px;
+}
+
+.daymark-overview-card {
+  display: flex;
+  min-width: 0;
+  min-height: 128px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 17px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 17px;
+  background: var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-overview-duration {
+  grid-column: 1 / -1;
+  min-height: 154px;
+  background:
+    linear-gradient(125deg, color-mix(in srgb, var(--daymark-accent) 13%, transparent), transparent 62%),
+    var(--daymark-surface);
+}
+
+.daymark-overview-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.daymark-overview-label > span:first-child {
+  display: inline-flex;
+  color: var(--daymark-accent);
+}
+
+.daymark-overview-label svg {
+  width: 16px;
+  height: 16px;
+}
+
+.daymark-overview-value {
+  display: block;
+  overflow: hidden;
+  margin-top: 9px;
+  color: var(--text-normal);
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.daymark-overview-duration .daymark-overview-value {
+  color: var(--daymark-accent);
+  font-size: clamp(34px, 7cqi, 54px);
+}
+
+.daymark-overview-note {
+  display: block;
+  margin-top: 7px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.daymark-trend-section,
+.daymark-habit-statistics {
+  margin: 0 auto 25px;
+}
+
+.daymark-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 0 2px 11px;
+}
+
+.daymark-section-heading > div {
+  min-width: 0;
+}
+
+.daymark-section-heading h2 {
+  font-size: 17px;
+}
+
+.daymark-trend-chart,
+.daymark-trend-empty {
+  border: 1px solid var(--daymark-border);
+  border-radius: 18px;
+  background: var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-trend-chart {
+  overflow: hidden;
+  padding: 17px;
+}
+
+.daymark-line-chart-summary {
+  display: flex;
+  min-width: 0;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.daymark-line-chart-summary > div span,
+.daymark-line-chart-summary > div strong {
+  display: block;
+}
+
+.daymark-line-chart-summary > div span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-line-chart-summary > div strong {
+  margin-top: 2px;
+  color: var(--text-normal);
+  font-size: 19px;
+  font-variant-numeric: tabular-nums;
+}
+
+.daymark-line-chart-summary > span {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.daymark-line-chart-plot {
+  position: relative;
+  height: clamp(150px, 24cqi, 220px);
+  margin-top: 13px;
+  overflow: hidden;
+  border-bottom: 1px solid color-mix(in srgb, var(--daymark-border) 92%, transparent);
+  border-left: 1px solid color-mix(in srgb, var(--daymark-border) 92%, transparent);
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--daymark-accent) 4%, transparent),
+    transparent 72%
+  );
+}
+
+.daymark-line-chart-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.daymark-line-chart-grid {
+  stroke: color-mix(in srgb, var(--daymark-border) 75%, transparent);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.daymark-line-chart-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--daymark-accent) 88%, #ffffff);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  filter: drop-shadow(0 2px 5px color-mix(in srgb, var(--daymark-accent) 26%, transparent));
+}
+
+.daymark-line-chart-labels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 7px;
+  color: var(--text-faint);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.daymark-line-chart-labels span:nth-child(2) {
+  text-align: center;
+}
+
+.daymark-line-chart-labels span:last-child {
+  text-align: right;
+}
+
+.daymark-trend-empty {
+  display: flex;
+  min-height: 112px;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: 20px;
+  color: var(--text-muted);
+}
+
+.daymark-trend-empty > span {
+  display: grid;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--daymark-soft);
+  color: var(--daymark-accent);
+}
+
+.daymark-trend-empty strong,
+.daymark-trend-empty div > span {
+  display: block;
+}
+
+.daymark-trend-empty strong {
+  color: var(--text-normal);
+  font-size: 12px;
+}
+
+.daymark-trend-empty div > span {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.daymark-stat-group {
+  overflow: hidden;
+  margin-bottom: 10px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 17px;
+  background: var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-stat-group-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--daymark-border);
+  background: color-mix(in srgb, var(--daymark-accent) 4%, var(--background-secondary));
+}
+
+.daymark-stat-group-heading h3 {
+  margin: 0;
+  color: var(--text-normal);
+  font-size: 12px;
+}
+
+.daymark-stat-group-heading div > span,
+.daymark-stat-group-heading > span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-stat-group-heading div > span {
+  display: block;
+  margin-top: 2px;
+}
+
+.daymark-stat-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.daymark-stat-row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 24px 38px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+}
+
+.daymark-stat-row + .daymark-stat-row {
+  border-top: 1px solid var(--daymark-border);
+}
+
+.daymark-stat-rank {
+  color: var(--text-faint);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.daymark-stat-emoji {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--daymark-habit-color) 13%, var(--background-secondary));
+  font-size: 18px;
+}
+
+.daymark-stat-row-copy {
+  min-width: 0;
+}
+
+.daymark-stat-row-copy strong,
+.daymark-stat-row-copy span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.daymark-stat-row-copy strong {
+  color: var(--text-normal);
+  font-size: 12px;
+}
+
+.daymark-stat-row-copy span {
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-stat-row-value {
+  min-width: 0;
+  color: var(--daymark-accent);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.daymark-statistics-empty {
+  padding: 22px;
+  border: 1px dashed var(--daymark-border);
+  border-radius: 15px;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.daymark-milestone-journey {
+  margin: 30px auto 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--daymark-border);
+}
+
+.daymark-milestone-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--daymark-accent) 23%, var(--daymark-border));
+  border-radius: 19px 19px 0 0;
+  background:
+    radial-gradient(circle at 8% 0, color-mix(in srgb, #9e7b48 13%, transparent), transparent 42%),
+    radial-gradient(circle at 92% 100%, color-mix(in srgb, var(--daymark-accent) 11%, transparent), transparent 45%),
+    var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-milestone-current {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 15px;
+}
+
+.daymark-milestone-symbols {
+  display: grid;
+  flex: 0 0 72px;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, #9e7b48 24%, var(--daymark-border));
+  border-radius: 22px;
+  background: color-mix(in srgb, #9e7b48 10%, var(--background-primary));
+  color: color-mix(in srgb, #9e7b48 72%, var(--text-normal));
+  font-family: "Segoe UI Symbol", "Noto Sans Runic", sans-serif;
+  font-size: 27px;
+  letter-spacing: 0.08em;
+}
+
+.daymark-milestone-rune-single {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.daymark-milestone-current > div {
+  min-width: 0;
+}
+
+.daymark-milestone-kicker {
+  color: var(--daymark-accent);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+}
+
+.daymark-milestone-current h3 {
+  margin: 3px 0 0;
+  color: var(--text-normal);
+  font-size: 20px;
+}
+
+.daymark-milestone-current p {
+  max-width: 470px;
+  margin: 5px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.daymark-milestone-total {
+  display: flex;
+  min-width: 158px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 15px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--daymark-accent) 4%, var(--background-primary));
+  text-align: right;
+}
+
+.daymark-milestone-total span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-milestone-total strong {
+  margin: 5px 0 4px;
+  color: var(--daymark-accent);
+  font-size: 21px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.daymark-milestone-progress-wrap {
+  padding: 14px 18px 15px;
+  border: 1px solid var(--daymark-border);
+  border-top: 0;
+  border-radius: 0 0 19px 19px;
+  background: var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-milestone-progress-copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-normal);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.daymark-milestone-progress-copy strong {
+  color: var(--daymark-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.daymark-milestone-progress {
+  overflow: hidden;
+  height: 9px;
+  margin-top: 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--daymark-accent) 10%, var(--background-secondary));
+}
+
+.daymark-milestone-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #a88650, var(--daymark-accent));
+  transition: width 180ms ease;
+}
+
+.daymark-milestone-progress-wrap > p {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.daymark-rune-alphabet {
+  margin-top: 10px;
+  padding: 14px 16px 16px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 16px;
+  background: var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-rune-alphabet-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 11px;
+}
+
+.daymark-rune-alphabet-heading strong {
+  color: var(--text-normal);
+  font-size: 14px;
+}
+
+.daymark-rune-alphabet-heading span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-rune-alphabet-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.daymark-rune-alphabet-item {
+  display: grid;
+  min-width: 0;
+  min-height: 112px;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 10px;
+  padding: 10px;
+  border: 1px solid color-mix(in srgb, #a88650 18%, var(--daymark-border));
+  border-radius: 10px;
+  background: color-mix(in srgb, #a88650 7%, var(--background-primary-alt));
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.daymark-rune-alphabet-item.is-unlocked {
+  background: color-mix(in srgb, var(--daymark-accent) 7%, var(--background-primary-alt));
+  color: var(--text-normal);
+}
+
+.daymark-rune-alphabet-item.is-next {
+  border-color: color-mix(in srgb, #a88650 58%, var(--daymark-border));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #a88650 16%, transparent);
+}
+
+.daymark-rune-glyph {
+  color: color-mix(in srgb, #a88650 75%, var(--text-normal));
+  font-size: 30px;
+  line-height: 1;
+  text-align: center;
+}
+
+.daymark-rune-copy {
+  min-width: 0;
+}
+
+.daymark-rune-copy strong,
+.daymark-rune-copy span,
+.daymark-rune-copy small {
+  display: block;
+}
+
+.daymark-rune-copy strong {
+  color: var(--text-normal);
+  font-size: 14px;
+}
+
+.daymark-rune-copy span,
+.daymark-rune-copy small,
+.daymark-rune-cycle {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.daymark-rune-copy span {
+  margin-top: 3px;
+}
+
+.daymark-rune-copy small {
+  margin-top: 2px;
+}
+
+.daymark-rune-cycle {
+  grid-column: 1 / -1;
+  padding-top: 7px;
+  border-top: 1px solid color-mix(in srgb, var(--daymark-border) 65%, transparent);
+  font-variant-numeric: tabular-nums;
+}
+
+.daymark-milestone-ledger {
+  overflow: hidden;
+  margin-top: 10px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 16px;
+  background: var(--daymark-surface);
+}
+
+.daymark-milestone-ledger > summary {
+  min-height: 46px;
+  padding: 14px 16px;
+  cursor: pointer;
+  color: var(--text-normal);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.daymark-milestone-ledger[open] > summary {
+  border-bottom: 1px solid var(--daymark-border);
+}
+
+.daymark-milestone-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+}
+
+.daymark-milestone-item {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 10px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 13px;
+  background: var(--background-primary-alt);
+  color: var(--text-muted);
+}
+
+.daymark-milestone-item.is-unlocked {
+  background: color-mix(in srgb, var(--daymark-accent) 6%, var(--background-primary-alt));
+  color: var(--text-normal);
+}
+
+.daymark-milestone-item.is-next {
+  border-color: color-mix(in srgb, #a88650 55%, var(--daymark-border));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #a88650 16%, transparent);
+}
+
+.daymark-milestone-item-symbols {
+  display: flex;
+  width: 58px;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3px;
+  border-radius: 12px;
+  background: color-mix(in srgb, #a88650 9%, var(--background-secondary));
+  font-family: "Segoe UI Symbol", "Noto Sans Runic", sans-serif;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.daymark-milestone-item-symbols > span:last-child {
+  font-size: 30px;
+}
+
+.daymark-milestone-item > div:nth-child(2) {
+  min-width: 0;
+}
+
+.daymark-milestone-item > div:nth-child(2) strong,
+.daymark-milestone-item > div:nth-child(2) span,
+.daymark-milestone-item-meta strong,
+.daymark-milestone-item-meta span {
+  display: block;
+}
+
+.daymark-milestone-item > div:nth-child(2) strong {
+  color: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.daymark-milestone-item > div:nth-child(2) span {
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.daymark-milestone-item-meta {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.daymark-milestone-item-meta strong {
+  color: inherit;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.daymark-milestone-item-meta span {
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-milestone-summary {
+  display: grid;
+  min-width: 218px;
+  gap: 8px;
+}
+
+.daymark-milestone-hexagram-current {
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", sans-serif;
+  font-size: 44px;
+  line-height: 1;
+}
+
+.daymark-milestone-next-reward {
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 14px;
+  background: color-mix(in srgb, #a88650 7%, var(--background-primary));
+}
+
+.daymark-milestone-next-reward > span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-milestone-next-reward-body {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+  margin-top: 7px;
+}
+
+.daymark-milestone-next-reward-body > div {
+  min-width: 0;
+}
+
+.daymark-milestone-next-reward-body strong,
+.daymark-milestone-next-reward-body div > span {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.daymark-milestone-next-reward-body strong {
+  color: var(--text-normal);
+  font-size: 14px;
+}
+
+.daymark-milestone-next-reward-body div > span {
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-milestone-next-glyph {
+  display: grid;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 10px;
+  background: color-mix(in srgb, #a88650 12%, var(--background-secondary));
+  color: color-mix(in srgb, #c7a96d 82%, var(--text-normal));
+  font-family: "Segoe UI Symbol", "Noto Sans Runic", "Noto Sans Symbols 2", sans-serif;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.daymark-milestone-progress-stack {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.daymark-milestone-progress-card {
+  min-width: 0;
+  padding: 14px 16px 15px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 16px;
+  background: var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-milestone-progress-card.is-hexagram {
+  border-color: color-mix(in srgb, #a88650 28%, var(--daymark-border));
+}
+
+.daymark-milestone-progress-card > p {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.daymark-milestone-progress-card.is-hexagram .daymark-milestone-progress-fill {
+  background: linear-gradient(90deg, #80694b, #c0a067);
+}
+
+.daymark-milestone-subheading {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.daymark-milestone-subheading strong {
+  color: var(--text-normal);
+  font-size: 15px;
+}
+
+.daymark-milestone-subheading span {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.daymark-hexagram-cycle,
+.daymark-reward-systems {
+  margin-top: 10px;
+  padding: 15px 16px 16px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 16px;
+  background: var(--daymark-surface);
+  box-shadow: var(--daymark-shadow);
+}
+
+.daymark-hexagram-grid {
+  display: grid;
+  width: min(100%, 520px);
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 5px;
+  margin: 14px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.daymark-hexagram-cell {
+  display: grid;
+  min-width: 0;
+  min-height: 38px;
+  aspect-ratio: 1;
+  grid-template-rows: minmax(0, 1fr) auto;
+  place-items: center;
+  gap: 1px;
+  padding: 3px 1px 2px;
+  border: 1px solid color-mix(in srgb, var(--daymark-border) 74%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--background-primary-alt) 90%, transparent);
+  color: color-mix(in srgb, var(--text-muted) 58%, transparent);
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", sans-serif;
+  font-size: clamp(18px, 4.8vw, 26px);
+  line-height: 1;
+}
+
+.daymark-hexagram-cell > small {
+  color: inherit;
+  font-family: var(--font-interface);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  opacity: 0.82;
+}
+
+.daymark-hexagram-cell.is-completed {
+  border-color: color-mix(in srgb, var(--daymark-accent) 34%, var(--daymark-border));
+  background: color-mix(in srgb, var(--daymark-accent) 11%, var(--background-primary-alt));
+  color: color-mix(in srgb, var(--daymark-accent) 82%, var(--text-normal));
+}
+
+.daymark-hexagram-cell.is-current {
+  border-color: color-mix(in srgb, #c4a46a 80%, var(--daymark-border));
+  background:
+    radial-gradient(circle, color-mix(in srgb, #c4a46a 18%, transparent), transparent 70%),
+    color-mix(in srgb, #a88650 10%, var(--background-primary-alt));
+  color: color-mix(in srgb, #d5b97d 90%, var(--text-normal));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, #c4a46a 32%, transparent),
+    0 0 14px color-mix(in srgb, #a88650 16%, transparent);
+}
+
+.daymark-hexagram-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 16px;
+  margin-top: 11px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-hexagram-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.daymark-hexagram-legend span::before {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 3px;
+  background: var(--background-primary-alt);
+  content: "";
+}
+
+.daymark-hexagram-legend .is-completed::before {
+  border-color: color-mix(in srgb, var(--daymark-accent) 48%, var(--daymark-border));
+  background: color-mix(in srgb, var(--daymark-accent) 38%, var(--background-primary-alt));
+}
+
+.daymark-hexagram-legend .is-current::before {
+  border-color: #b7975f;
+  background: color-mix(in srgb, #b7975f 45%, var(--background-primary-alt));
+  box-shadow: 0 0 7px color-mix(in srgb, #b7975f 25%, transparent);
+}
+
+.daymark-symbol-system-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.daymark-symbol-system {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 13px;
+  background: var(--background-primary-alt);
+}
+
+.daymark-symbol-system.is-current {
+  border-color: color-mix(in srgb, #b7975f 64%, var(--daymark-border));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #b7975f 13%, transparent);
+}
+
+.daymark-symbol-system.is-completed {
+  background: color-mix(in srgb, var(--daymark-accent) 6%, var(--background-primary-alt));
+}
+
+.daymark-symbol-system-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 9px;
+}
+
+.daymark-symbol-system-heading strong {
+  color: var(--text-normal);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.daymark-symbol-system-heading span {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-symbol-system > p {
+  margin: 5px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.daymark-symbol-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(38px, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.daymark-symbol-tile {
+  display: grid;
+  min-width: 0;
+  min-height: 40px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--daymark-border) 72%, transparent);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--background-primary) 82%, transparent);
+  color: color-mix(in srgb, var(--text-muted) 52%, transparent);
+}
+
+.daymark-symbol-tile.is-unlocked {
+  border-color: color-mix(in srgb, var(--daymark-accent) 32%, var(--daymark-border));
+  color: color-mix(in srgb, var(--daymark-accent) 78%, var(--text-normal));
+}
+
+.daymark-symbol-tile.is-next {
+  border-color: color-mix(in srgb, #c4a46a 78%, var(--daymark-border));
+  color: color-mix(in srgb, #d2b477 90%, var(--text-normal));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #c4a46a 24%, transparent);
+}
+
+.daymark-reward-glyph,
+.daymark-symbol-archive-glyph {
+  display: grid;
+  place-items: center;
+  color: inherit;
+  font-family: "Segoe UI Symbol", "Noto Sans Runic", "Noto Sans Symbols 2", sans-serif;
+  line-height: 1;
+}
+
+.daymark-reward-glyph {
+  font-size: 25px;
+}
+
+.daymark-geomantic-pattern {
+  display: grid;
+  width: 25px;
+  gap: 2px;
+}
+
+.daymark-geomantic-row {
+  display: flex;
+  height: 4px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.daymark-geomantic-dot {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.daymark-symbol-archive {
+  overflow: hidden;
+  margin-top: 10px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 16px;
+  background: var(--daymark-surface);
+}
+
+.daymark-symbol-archive > summary {
+  min-height: 46px;
+  padding: 14px 16px;
+  cursor: pointer;
+  color: var(--text-normal);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.daymark-symbol-archive[open] > summary {
+  border-bottom: 1px solid var(--daymark-border);
+}
+
+.daymark-symbol-archive-body {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+}
+
+.daymark-symbol-archive-group {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 13px;
+  background: var(--background-primary-alt);
+}
+
+.daymark-symbol-archive-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.daymark-symbol-archive-heading h3 {
+  margin: 0;
+  color: var(--text-normal);
+  font-size: 15px;
+}
+
+.daymark-symbol-archive-heading span,
+.daymark-symbol-archive-group > p {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-symbol-archive-group > p {
+  margin: 4px 0 10px;
+  line-height: 1.45;
+}
+
+.daymark-symbol-archive-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.daymark-symbol-archive-item {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 9px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 11px;
+  color: var(--text-muted);
+}
+
+.daymark-symbol-archive-item.is-unlocked {
+  background: color-mix(in srgb, var(--daymark-accent) 6%, var(--background-primary));
+  color: var(--text-normal);
+}
+
+.daymark-symbol-archive-item.is-next {
+  border-color: color-mix(in srgb, #b7975f 60%, var(--daymark-border));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #b7975f 14%, transparent);
+}
+
+.daymark-symbol-archive-glyph {
+  width: 44px;
+  min-height: 44px;
+  border-radius: 10px;
+  background: color-mix(in srgb, #a88650 9%, var(--background-secondary));
+  color: color-mix(in srgb, #b7975f 76%, var(--text-normal));
+  font-size: 29px;
+}
+
+.daymark-symbol-archive-copy {
+  min-width: 0;
+}
+
+.daymark-symbol-archive-copy strong,
+.daymark-symbol-archive-copy span,
+.daymark-symbol-archive-copy small,
+.daymark-symbol-archive-meta strong,
+.daymark-symbol-archive-meta span {
+  display: block;
+}
+
+.daymark-symbol-archive-copy strong {
+  color: inherit;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.daymark-symbol-archive-copy span,
+.daymark-symbol-archive-copy small,
+.daymark-symbol-archive-meta span {
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.daymark-symbol-archive-meta {
+  min-width: 92px;
+  text-align: right;
+}
+
+.daymark-symbol-archive-meta strong {
+  color: inherit;
+  font-size: 12px;
+}
+
+.daymark-continuity {
+  margin: 30px auto 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--daymark-border);
+}
+
+.daymark-continuity .daymark-stats-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 0;
+}
+
+.daymark-continuity .daymark-stat-card {
+  min-height: 104px;
+  background: color-mix(in srgb, var(--daymark-accent) 4%, var(--background-primary-alt));
+}
+
+.daymark-month-review {
+  margin: 30px auto 0;
+  padding-top: 22px;
+  border-top: 1px solid var(--daymark-border);
+}
+
+.daymark-month-review .daymark-month-nav {
+  max-width: 440px;
+  margin-top: 5px;
+}
+
+.daymark-month-review .daymark-calendar {
+  box-shadow: none;
+}
+
+.daymark-ritual-modal {
+  box-sizing: border-box;
+  width: min(620px, calc(100vw - 24px));
+  max-width: 620px;
+  max-height: calc(100vh - 24px);
+  overflow: hidden;
+  border-radius: 24px;
+}
+
+.daymark-ritual-modal .modal-content {
+  overflow-x: hidden;
+}
+
+.daymark-ritual-modal::before {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 0, color-mix(in srgb, var(--daymark-accent) 14%, transparent), transparent 38%),
+    linear-gradient(140deg, transparent 62%, color-mix(in srgb, var(--daymark-accent) 6%, transparent));
+  content: "";
+  pointer-events: none;
+}
+
+.daymark-ritual-modal > * {
+  position: relative;
+}
+
+.daymark-ritual-icon {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  margin: 5px auto 16px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 50%;
+  background: var(--daymark-soft);
+  color: var(--daymark-accent);
+}
+
+.daymark-ritual-icon svg {
+  width: 27px;
+  height: 27px;
+  stroke-width: 1.6;
+}
+
+.daymark-ritual-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px 16px;
+  margin: 0 2px 12px;
+  color: var(--daymark-accent);
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.daymark-ritual-source time {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.daymark-ritual-original {
+  margin: 0;
+  padding: 18px 20px;
+  border: 1px solid color-mix(in srgb, var(--daymark-accent) 28%, var(--daymark-border));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--daymark-accent) 7%, var(--background-primary-alt));
+  color: var(--text-normal);
+  font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+  font-size: 18px;
+  letter-spacing: 0.055em;
+  line-height: 1.9;
+}
+
+.daymark-ritual-translation {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-left: 2px solid var(--daymark-accent);
+  background: color-mix(in srgb, var(--background-secondary) 74%, transparent);
+}
+
+.daymark-ritual-translation strong {
+  color: var(--daymark-accent);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.daymark-ritual-translation p,
+.daymark-ritual-instruction {
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+
+.daymark-ritual-translation p {
+  margin: 5px 0 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.daymark-ritual-instruction {
+  margin: 17px 1px 9px;
+  color: var(--text-normal);
+  font-size: 13px;
+}
+
+.daymark-ritual-modal .daymark-ritual-transcription {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 132px;
+  padding: 13px 14px;
+  border: 1px solid var(--daymark-border);
+  border-radius: 14px;
+  background: var(--background-modifier-form-field);
+  color: var(--text-normal);
+  font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+  font-size: 16px;
+  letter-spacing: 0.035em;
+  line-height: 1.75;
+  resize: vertical;
+}
+
+.daymark-ritual-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.daymark-ritual-actions > button {
+  min-width: 170px;
+  min-height: 46px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.daymark-rest-modal {
+  width: min(480px, calc(100vw - 24px));
+  max-width: 480px;
+  max-height: calc(100vh - 24px);
+  overflow-x: hidden;
+  border: 1px solid color-mix(in srgb, #d9b66f 42%, var(--daymark-border));
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 18%, rgb(78 142 126 / 20%), transparent 34%),
+    radial-gradient(circle at 50% 42%, rgb(121 90 151 / 13%), transparent 52%),
+    linear-gradient(155deg, #091018, #0b151d 58%, #09130f);
+  box-shadow:
+    0 22px 80px rgb(0 0 0 / 55%),
+    inset 0 1px 0 rgb(226 198 132 / 10%);
+}
+
+.daymark-rest-modal::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(115deg, transparent 18%, rgb(126 217 188 / 4%) 50%, transparent 82%),
+    repeating-linear-gradient(90deg, transparent 0 38px, rgb(226 198 132 / 2%) 39px 40px);
+  content: "";
+  pointer-events: none;
+}
+
+.daymark-rest-modal > * {
+  position: relative;
+}
+
+.daymark-rest-modal .modal-title {
+  margin-bottom: 5px;
+  color: #f4e8c9;
+  font-size: clamp(21px, 5vw, 26px);
+  letter-spacing: 0.055em;
+  text-align: center;
+}
+
+.daymark-rest-modal .modal-content {
+  overflow-x: hidden;
+}
+
+.daymark-rest-chime {
+  position: relative;
+  display: grid;
+  width: 150px;
+  height: 150px;
+  place-items: center;
+  margin: 0 auto 8px;
+}
+
+.daymark-rest-chime-ring {
+  position: absolute;
+  inset: 50%;
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgb(140 225 201 / 58%);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.72);
+  animation: daymark-chime-ripple 5.4s ease-out infinite;
+}
+
+.daymark-rest-chime-ring-two {
+  animation-delay: 1.35s;
+}
+
+.daymark-rest-chime-ring-three {
+  animation-delay: 2.7s;
+}
+
+.daymark-rest-icon {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 82px;
+  height: 82px;
+  place-items: center;
+  border: 1px solid rgb(233 202 128 / 40%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 42% 30%, rgb(255 241 192 / 15%), transparent 35%),
+    linear-gradient(145deg, rgb(38 66 65 / 92%), rgb(19 37 46 / 96%));
+  box-shadow:
+    0 0 0 9px rgb(126 217 188 / 5%),
+    0 0 42px rgb(126 217 188 / 24%);
+  color: #e5c985;
+  animation: daymark-chime-glow 5.4s ease-in-out infinite;
+}
+
+.daymark-rest-icon svg {
+  width: 42px;
+  height: 42px;
+  stroke-width: 1.45;
+}
+
+.daymark-rest-chime-seal {
+  position: absolute;
+  right: 14px;
+  bottom: 13px;
+  z-index: 3;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid rgb(225 195 123 / 30%);
+  border-radius: 50%;
+  color: rgb(229 201 133 / 72%);
+  font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.daymark-rest-heading {
+  margin: 0 0 10px;
+  color: var(--text-normal);
+  text-align: center;
+  font-size: clamp(20px, 5vw, 25px);
+  font-weight: 680;
+}
+
+.daymark-rest-description,
+.daymark-rest-resonance,
+.daymark-rest-note {
+  overflow-wrap: anywhere;
+  text-align: center;
+  line-height: 1.7;
+}
+
+.daymark-rest-description {
+  margin: 0;
+  color: var(--text-normal);
+  font-size: 15px;
+}
+
+.daymark-rest-resonance {
+  width: fit-content;
+  max-width: 100%;
+  margin: 13px auto;
+  padding: 6px 13px;
+  border: 1px solid rgb(225 195 123 / 24%);
+  border-radius: 999px;
+  background: rgb(225 195 123 / 7%);
+  color: #e5c985;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.daymark-rest-note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-rest-modal button.daymark-rest-instrument { display: grid; width: 150px; height: 150px; padding: 0; border: 0; background: transparent; box-shadow: none; cursor: pointer; }
+.daymark-rest-instrument:focus-visible { outline: 2px solid #e5c985; outline-offset: 3px; border-radius: 50%; }
+.daymark-rest-instrument:active .daymark-rest-icon { transform: scale(.93); }
+.daymark-rest-modes { display: flex; justify-content: center; gap: 8px; margin: 0 0 18px; }
+.daymark-rest-modes button { min-width: 72px; border-radius: 999px; }
+.daymark-rest-modes button[aria-pressed="true"] { background: #38564f; color: #f0d99f; border-color: #9b9463; }
+.daymark-rest-feedback { height: 26px; text-align: center; color: #b8f3dc; font-size: 17px; pointer-events: none; }
+.daymark-rest-merit { display: inline-block; animation: daymark-merit-rise 1.4s ease-out both; }
+@keyframes daymark-merit-rise { from { opacity: 1; transform: translateY(7px); } to { opacity: 0; transform: translateY(-20px); } }
+.daymark-woodfish { position: relative; width: 56px; height: 42px; border-radius: 48% 52% 44% 46%; background: radial-gradient(ellipse at 30% 20%, #e0ae6d, #9d6035 60%, #593c2a); box-shadow: inset -4px -4px 7px #422b26; transform: rotate(-12deg); }
+.daymark-woodfish::after { content: ""; position: absolute; top: 22px; left: 4px; width: 46px; height: 5px; background: #3a2923; border-radius: 60%; transform: rotate(-10deg); }
+@media (prefers-reduced-motion: reduce) { .daymark-rest-merit { animation: none; } }
+
+.daymark-rest-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 23px;
+}
+
+.daymark-rest-actions > button {
+  flex: 1 1 130px;
+  min-height: 46px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+@keyframes daymark-chime-ripple {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.72);
+  }
+
+  10% {
+    opacity: 0.52;
+  }
+
+  70%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.35);
+  }
+}
+
+@keyframes daymark-chime-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 9px rgb(126 217 188 / 4%),
+      0 0 32px rgb(126 217 188 / 16%);
+  }
+
+  40% {
+    box-shadow:
+      0 0 0 13px rgb(126 217 188 / 7%),
+      0 0 52px rgb(126 217 188 / 30%);
+  }
+}
+
+@container daymark (min-width: 720px) {
+  .daymark-habit-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+@container daymark (max-width: 620px) {
+  .daymark-mystic-backdrop {
+    padding-inline: 14px;
+    grid-template-columns: repeat(6, minmax(24px, 1fr));
+    gap: 14px 12px;
+    font-size: 24px;
+  }
+
+  .daymark-statistics-intro {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .daymark-statistics-copy {
+    flex: 0 1 auto;
+  }
+
+  .daymark-range-selector {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .daymark-rune-alphabet-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .daymark-milestone-progress-stack,
+  .daymark-symbol-system-list,
+  .daymark-symbol-archive-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@container daymark (max-width: 520px) {
+  .daymark-topbar {
+    gap: 7px;
+  }
+
+  .daymark-brand {
+    gap: 8px;
+  }
+
+  .daymark-brand-meta > span {
+    font-size: 12px;
+  }
+
+  .daymark-new-habit > span {
+    display: none;
+  }
+
+  .daymark-daily-summary {
+    gap: 12px;
+    padding: 19px 16px;
+  }
+
+  .daymark-daily-iching {
+    grid-template-columns: 60px minmax(0, 1fr);
+    gap: 13px;
+    padding: 16px;
+  }
+
+  .daymark-daily-check-in {
+    flex-wrap: wrap;
+    gap: 11px;
+    padding: 14px;
+  }
+
+  .daymark-check-in-copy {
+    flex-basis: calc(100% - 58px);
+  }
+
+  .daymark-view .daymark-check-in-action {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  .daymark-iching-symbol {
+    width: 60px;
+    height: 76px;
+    border-radius: 17px;
+    font-size: 42px;
+  }
+
+  .daymark-summary-copy h1 {
+    font-size: 21px;
+  }
+
+  .daymark-summary-copy p {
+    font-size: 12px;
+  }
+
+  .daymark-summary-metrics {
+    gap: 5px 12px;
+    font-size: 12px;
+  }
+
+  .daymark-progress-ring {
+    flex-basis: 75px;
+    width: 75px;
+    height: 75px;
+  }
+
+  .daymark-progress-ring > div {
+    width: 63px;
+    height: 63px;
+  }
+
+  .daymark-progress-ring strong {
+    font-size: 19px;
+  }
+
+  .daymark-progress-ring span {
+    font-size: 12px;
+  }
+
+  .daymark-habit-card {
+    padding: 16px;
+  }
+
+  .daymark-rest-banner,
+  .daymark-running-banner {
+    padding: 15px;
+  }
+
+  .daymark-focus-body {
+    flex-wrap: wrap;
+    gap: 13px;
+  }
+
+  .daymark-focus-copy {
+    flex-basis: 150px;
+  }
+
+  .daymark-focus-clock > strong {
+    font-size: 29px;
+  }
+
+  .daymark-view .daymark-focus-stop {
+    flex: 1 1 100px;
+    padding-inline: 10px;
+  }
+
+  .daymark-number-controls {
+    gap: 6px;
+  }
+
+  .daymark-duration-card .daymark-number-controls .daymark-timer {
+    flex-basis: 100%;
+  }
+
+  .daymark-duration-total > .daymark-cumulative-value {
+    font-size: 31px;
+  }
+
+  .daymark-statistics-intro {
+    padding: 18px 16px;
+  }
+
+  .daymark-statistics-copy h1 {
+    font-size: 21px;
+  }
+
+  .daymark-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .daymark-overview-duration,
+  .daymark-overview-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .daymark-overview-card {
+    min-height: 116px;
+    padding: 15px;
+  }
+
+  .daymark-overview-duration {
+    min-height: 143px;
+  }
+
+  .daymark-trend-chart {
+    padding: 15px 12px 11px;
+  }
+
+  .daymark-line-chart-summary {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .daymark-line-chart-summary > span {
+    text-align: left;
+  }
+
+  .daymark-stat-row {
+    padding-inline: 12px;
+  }
+
+  .daymark-milestone-hero {
+    grid-template-columns: 1fr;
+    padding: 15px;
+  }
+
+  .daymark-milestone-total {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .daymark-milestone-summary {
+    min-width: 0;
+  }
+
+  .daymark-milestone-subheading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .daymark-milestone-subheading span {
+    text-align: left;
+  }
+
+  .daymark-hexagram-cycle,
+  .daymark-reward-systems {
+    padding-inline: 12px;
+  }
+
+  .daymark-symbol-archive-item {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .daymark-symbol-archive-meta {
+    grid-column: 2;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .daymark-milestone-list {
+    grid-template-columns: 1fr;
+  }
+
+  .daymark-rune-alphabet-item {
+    min-height: 108px;
+  }
+}
+
+@container daymark (max-width: 350px) {
+  .daymark-mystic-backdrop {
+    grid-template-columns: repeat(5, minmax(24px, 1fr));
+  }
+
+  .daymark-rune-alphabet-list {
+    grid-template-columns: 1fr;
+  }
+
+  .daymark-brand-meta > span:first-child {
+    display: none;
+  }
+
+  .daymark-brand-title-row {
+    gap: 8px;
+  }
+
+  .daymark-live-clock {
+    font-size: 14px;
+  }
+
+  .daymark-brand-mark {
+    flex-basis: 38px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .daymark-summary-copy h1 {
+    font-size: 19px;
+  }
+
+  .daymark-daily-iching {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 15px 13px;
+  }
+
+  .daymark-check-in-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .daymark-check-in-heading > span {
+    max-width: 100%;
+  }
+
+  .daymark-iching-symbol {
+    width: 52px;
+    height: 58px;
+    border-radius: 15px;
+    font-size: 36px;
+  }
+
+  .daymark-daily-summary {
+    gap: 8px;
+    padding: 17px 13px;
+  }
+
+  .daymark-summary-copy p {
+    display: none;
+  }
+
+  .daymark-top-actions {
+    gap: 1px;
+  }
+
+  .daymark-statistics-intro {
+    padding: 16px 13px;
+  }
+
+  .daymark-range-selector {
+    gap: 2px;
+    padding: 3px;
+  }
+
+  .daymark-view .daymark-range-selector button {
+    padding-inline: 4px;
+    font-size: 12px;
+  }
+
+  .daymark-overview-duration .daymark-overview-value {
+    font-size: 32px;
+  }
+
+  .daymark-trend-chart {
+    padding-inline: 9px;
+  }
+
+  .daymark-line-chart-plot {
+    height: 140px;
+  }
+
+  .daymark-stat-row {
+    grid-template-columns: 22px 34px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .daymark-stat-rank,
+  .daymark-stat-emoji {
+    grid-row: 1 / span 2;
+  }
+
+  .daymark-stat-emoji {
+    width: 34px;
+    height: 34px;
+  }
+
+  .daymark-stat-row-value {
+    grid-column: 3;
+    justify-self: start;
+    font-size: 12px;
+    text-align: left;
+  }
+
+  .daymark-milestone-current {
+    align-items: flex-start;
+    gap: 11px;
+  }
+
+  .daymark-milestone-symbols {
+    flex-basis: 58px;
+    width: 58px;
+    height: 58px;
+    border-radius: 17px;
+    font-size: 22px;
+  }
+
+  .daymark-milestone-progress-copy {
+    align-items: flex-start;
+  }
+
+  .daymark-symbol-system-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .daymark-milestone-hexagram-current {
+    font-size: 37px;
+  }
+
+  .daymark-milestone-progress-card {
+    padding-inline: 12px;
+  }
+
+  .daymark-hexagram-grid {
+    gap: 3px;
+  }
+
+  .daymark-hexagram-cell {
+    border-radius: 6px;
+    font-size: 18px;
+  }
+
+  .daymark-symbol-grid {
+    grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
+    gap: 5px;
+  }
+
+  .daymark-rune-alphabet-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+}
+
+.daymark-breakdown-emoji {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--daymark-habit-color) 14%, transparent);
+}
+
+.daymark-breakdown-row > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.daymark-breakdown-row > div strong,
+.daymark-breakdown-row > div span {
+  display: block;
+}
+
+.daymark-breakdown-row > div strong {
+  font-size: 12px;
+}
+
+.daymark-breakdown-row > div span {
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-breakdown-row > strong {
+  color: var(--interactive-accent);
+  font-size: 12px;
+}
+
+.daymark-modal .modal-content {
+  max-width: 620px;
+}
+
+.daymark-modal .setting-item {
+  align-items: center;
+}
+
+.daymark-modal .setting-item-control input[type="text"],
+.daymark-modal .setting-item-control input[type="number"],
+.daymark-modal .setting-item-control textarea {
+  min-width: min(280px, 48vw);
+}
+
+.daymark-record-textarea {
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+}
+
+.daymark-weekdays {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.daymark-weekday {
+  position: relative;
+  display: grid;
+  width: 34px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.daymark-weekday:has(input:checked) {
+  border-color: var(--interactive-accent);
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.daymark-weekday input {
+  position: absolute;
+  opacity: 0;
+}
+
+.daymark-hidden {
+  display: none !important;
+}
+
+.daymark-issues {
+  max-height: 50vh;
+  overflow: auto;
+  padding-left: 22px;
+}
+
+.daymark-issues li {
+  margin-bottom: 12px;
+}
+
+.daymark-issues strong {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+
+.daymark-issues div,
+.daymark-settings-warning {
+  margin-top: 3px;
+  color: var(--text-warning);
+  font-size: 12px;
+}
+
+@media (max-width: 480px) {
+  .daymark-view {
+    padding: 14px 12px calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .daymark-topbar {
+    margin-bottom: 14px;
+  }
+
+  .daymark-top-actions button,
+  .daymark-card-edit,
+  .daymark-number-controls .clickable-icon,
+  .daymark-note-row .clickable-icon,
+  .daymark-date-nav .clickable-icon,
+  .daymark-month-nav .clickable-icon {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .daymark-tabs button,
+  .daymark-number-controls > button,
+  .daymark-check-control,
+  .daymark-text-add {
+    min-height: 46px;
+  }
+
+  .daymark-daily-summary {
+    padding: 14px;
+  }
+
+  .daymark-progress-ring {
+    flex-basis: 68px;
+    width: 68px;
+    height: 68px;
+  }
+
+  .daymark-progress-ring > div {
+    width: 55px;
+    height: 55px;
+  }
+
+  .daymark-habit-card {
+    padding: 14px 12px 13px 15px;
+  }
+
+  .daymark-calendar {
+    gap: 3px;
+    padding: 8px 6px;
+  }
+
+  .daymark-calendar-day {
+    min-height: 40px;
+    border-radius: 8px;
+  }
+
+  .daymark-modal .setting-item:not(.setting-item-heading) {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .daymark-modal .setting-item-control {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .daymark-modal .setting-item-control input[type="text"],
+  .daymark-modal .setting-item-control input[type="number"],
+  .daymark-modal .setting-item-control textarea,
+  .daymark-modal .setting-item-control select {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+  }
+
+  .daymark-rest-modal {
+    padding-inline: 18px;
+  }
+
+  .daymark-rest-chime {
+    width: 130px;
+    height: 130px;
+  }
+
+  .daymark-rest-icon {
+    width: 74px;
+    height: 74px;
+  }
+
+  .daymark-weekdays {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .daymark-weekday {
+    width: 100%;
+    height: 44px;
+  }
+
+  .daymark-done-badge {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    padding: 0;
+    font-size: 0;
+  }
+
+  .daymark-done-badge::after {
+    content: "✓";
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .daymark-calendar {
+    width: calc(100% + 24px);
+    margin-inline: -12px;
+    padding-inline: 2px;
+    gap: 1px;
+    border-radius: 12px;
+  }
+
+  .daymark-rest-actions {
+    flex-direction: column;
+  }
+
+  .daymark-rest-actions > button {
+    flex-basis: auto;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .daymark-view *,
+  .daymark-modal * {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+
+  .daymark-running-pulse {
+    animation: none !important;
+  }
+}

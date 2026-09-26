@@ -1,0 +1,11 @@
+node_modules/
+main.js
+*.map
+.DS_Store
+.idea/
+.vscode/
+coverage/
+backups/
+release/
+*.zip
+scripts/preview/screenshots/

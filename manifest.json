@@ -1,0 +1,9 @@
+{
+  "id": "daymark-life-tracker",
+  "name": "日迹 Daymark",
+  "version": "2026.9.212203",
+  "minAppVersion": "1.7.2",
+  "description": "在桌面端和移动端记录学习、锻炼及日常习惯，数据保存在 Vault 的 Markdown 文件中。",
+  "author": "Daymark Contributors",
+  "isDesktopOnly": false
+}
